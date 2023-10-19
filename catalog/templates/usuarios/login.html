@@ -1,48 +1,99 @@
-{% extends 'usuarios/layout.html' %}
+{% extends "../catalogo/layouts/layout.html" %}
 {% load static %}
 {% block content %}
 
-    <div class="pagina-inicial">
-        <header class="cabecalho">
-            <img src="{% static '/assets/logo/Logo(2).png' %}"  width="200px" heigth="100px"  alt="Logo " />
-            {% include 'partials/_alertas.html' %}
-            <div class="cabecalho__busca">
-                <div class="busca__fundo">
-                    <form action="{% url 'buscar' %}">
-                        <input  class="busca__input" type="text" name="buscar" placeholder="O que você procura?">
-                        <button type="submit">
-                            <img class="busca__icone" src="{% static '/assets/ícones/1x/search.png' %}" alt="ícone de search">
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </header>
-        <main class="principal">
-            <section class="menu-lateral">
-                <nav class="menu-lateral__navegacao">
-                    <a href="{% url 'index' %}"><img src="{% static '/assets/ícones/1x/Home - ativo.png' %}"> Home</a>
-                    <a href="{% url 'login' %}"><img src="{% static '/assets/ícones/1x/Mais vistas - inativo.png' %}"> Login</a>
-                    <a href="{% url 'cadastro' %}"><img src="{% static '/assets/ícones/1x/Novas - inativo.png' %}"> Cadastrar</a>
-                    <a href="{% url 'logout' %}"><img src="{% static '/assets/ícones/1x/Surpreenda-me - inativo.png' %}"> Logout</a>
-                </nav>
-            </section>
-            <section class="galeria" style="margin-left: 5em">
-                <form action="{% url 'login' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-                        {% for field in form.visible_fields %}
-                        <div class="col-12 col-lg-12" style="margin-bottom: 10px;">
-                            <label for="{{ field.id_for_label }}" style="color:#000; margin-bottom: 5px;">{{field.label}}</label>
-                            {{ field }}
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success col-12" style="padding: top 5px;">Logar</button>
-                    </div>
-                </form>
-            </section>
-        </main>
-    </div>
-{% endblock %}
+{% include "partials/guest/header.html" %} 
 
+
+
+  <main id="main" data-aos="fade" data-aos-delay="1500">
+
+    <!-- ======= End Page Header ======= -->
+    <div class="page-header d-flex align-items-center">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2>Login</h2>
+            <p>Para adicionar itens em nosso catalogo você deve realizar o login utilizando email e senha cadastrado. Caso não tenha cadastro entre em contato ou va na nossa empresa nos seguintes endereços abaixo:</p>
+
+          </div>
+        </div>
+      </div>
+    </div><!-- End Page Header -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="row gy-4 justify-content-center">
+
+          <div class="col-lg-3">
+            <div class="info-item d-flex">
+              <i class="bi bi-geo-alt flex-shrink-0"></i>
+              <div>
+                <h4>Endereço:</h4>
+                <p>Escola Sesi/Senai rua A, sem numero</p>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-lg-3">
+            <div class="info-item d-flex">
+              <i class="bi bi-envelope flex-shrink-0"></i>
+              <div>
+                <h4>Email:</h4>
+                <p>nascimento@django.com</p>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-lg-3">
+            <div class="info-item d-flex">
+              <i class="bi bi-phone flex-shrink-0"></i>
+              <div>
+                <h4>telefone:</h4>
+                <p>+32 9-998729-3456</p>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+
+        </div>
+
+        <div class="row justify-content-center mt-4">
+
+          <div class="col-lg-9">
+            <form action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+              <div class="row">
+                {% for field in form.visible_fields %}
+                  <div class="col-md-12 form-group">
+                    <label for="{{ field.id_for_label }}" style="color:#fff; margin-bottom: 5px;">{{field.label}}</label>
+                      {{ field }}
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="my-3">
+                {% include 'partials/_alertas.html' %}
+              </div>
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="submit">Entrar</button>
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  {% include 'partials/guest/footer.html'%}
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader">
+    <div class="line"></div>
+  </div>
+
+{% endblock %}

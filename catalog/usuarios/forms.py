@@ -1,14 +1,14 @@
 from django import forms
 
 class LoginForms(forms.Form):
-    nome_login=forms.CharField(
-        label='Nome de Login', 
+    email=forms.EmailField(
+        label='Email', 
         required=True, 
         max_length=100,
-        widget=forms.TextInput(
+        widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Ex.: João Silva',
+                'placeholder': 'Ex.: jose@django.com',
             }
         )
     )
@@ -24,8 +24,8 @@ class LoginForms(forms.Form):
         ),
     )
 
-class CadastroForms(forms.Form):
-    nome_cadastro=forms.CharField(
+class RegisterForms(forms.Form):
+    name=forms.CharField(
         label='Nome de Cadastro', 
         required=True, 
         max_length=100,
@@ -47,7 +47,7 @@ class CadastroForms(forms.Form):
             }
         )
     )
-    senha_1=forms.CharField(
+    password=forms.CharField(
         label='Senha', 
         required=True, 
         max_length=70,
@@ -58,7 +58,7 @@ class CadastroForms(forms.Form):
             }
         ),
     )
-    senha_2=forms.CharField(
+    password_confirm=forms.CharField(
         label='Confirme a sua senha', 
         required=True, 
         max_length=70,
@@ -70,22 +70,22 @@ class CadastroForms(forms.Form):
         ),
     )
 
-    def clean_nome_cadastro(self):
-        nome = self.cleaned_data.get('nome_cadastro')
+    def clean_name_register(self):
+        name = self.cleaned_data.get('name')
 
-        if nome:
-            nome = nome.strip()
-            if ' ' in nome:
+        if name:
+            name = name.strip()
+            if ' ' in name:
                 raise forms.ValidationError('Espaços não são permitidos nesse campo')
             else:
-                return nome
+                return name
 
-    def clean_senha_2(self):
-        senha_1 = self.cleaned_data.get('senha_1')
-        senha_2 = self.cleaned_data.get('senha_2')
+    def clean_password_confirm(self):
+        password = self.cleaned_data.get('password')
+        password_confirm = self.cleaned_data.get('password_confirm')
 
-        if senha_1 and senha_2:
-            if senha_1 != senha_2:
+        if password and password_confirm:
+            if password != password_confirm:
                 raise forms.ValidationError('Senhas não são iguais')
             else:
-                return senha_2
+                return password_confirm

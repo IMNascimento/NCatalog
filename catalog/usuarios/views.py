@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect
-
-from usuarios.forms import LoginForms, CadastroForms
-
+from usuarios.forms import LoginForms, RegisterForms
 from django.contrib.auth.models import User
-
 from django.contrib import auth
-
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def index(request):
+    user = User.objects.all()
+    form = RegisterForms()
+    return render(request, 'usuarios/users.html', {'users': user, 'form':form})
+
+@login_required
+def dashboard(request):
+    return render(request, "dashboard/dashboard.html")
 
 def login(request):
     form = LoginForms()
@@ -15,51 +22,67 @@ def login(request):
         form = LoginForms(request.POST)
 
         if form.is_valid():
-            nome = form['nome_login'].value()
-            senha = form['senha'].value()
+            email = form['email'].value()
+            password = form['senha'].value()
+        user_temp = User.objects.get(email= email)
 
-        usuario = auth.authenticate(
+        user = auth.authenticate(
             request,
-            username=nome,
-            password=senha
+            username=user_temp,
+            password=password
         )
-        if usuario is not None:
-            auth.login(request, usuario)
-            messages.success(request, f'{nome} logado com sucesso!')
-            return redirect('index')
+
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, f'Foi logado com sucesso!')
+            return redirect('dashboard')
         else:
             messages.error(request, 'Erro ao efetuar login')
             return redirect('login')
 
     return render(request, 'usuarios/login.html', {'form': form})
 
-def cadastro(request):
-    form = CadastroForms()
-
+@login_required
+def register(request):
     if request.method == 'POST':
-        form = CadastroForms(request.POST)
+        form = RegisterForms(request.POST)
 
         if form.is_valid():
-            nome=form['nome_cadastro'].value()
+            name=form['name'].value()
             email=form['email'].value()
-            senha=form['senha_1'].value()
+            password=form['password'].value()
 
-            if User.objects.filter(username=nome).exists():
+            if User.objects.filter(username=name).exists():
                 messages.error(request, 'Usuário já existente')
-                return redirect('cadastro')
+                return redirect('users')
 
             usuario = User.objects.create_user(
-                username=nome,
+                username=name,
                 email=email,
-                password=senha
+                password=password
             )
             usuario.save()
-            messages.success(request, 'Cadastro efetuado com sucesso!')
-            return redirect('login')
+            messages.success(request, 'Usuario cadastrado com sucesso!')
+            return redirect('users')
 
-    return render(request, 'usuarios/cadastro.html', {'form': form})
-
+@login_required
 def logout(request):
     auth.logout(request)
     messages.success(request, 'Logout efetuado com sucesso!')
     return redirect('login')
+
+@login_required
+def inative(request, id):
+    user = User.objects.get(id=id)
+    user.is_active = False
+    user.save()
+    messages.success(request, 'Usuario inativado com sucesso!')
+    return redirect('users')
+
+@login_required
+def active(request, id):
+    user = User.objects.get(id=id)
+    user.is_active = True
+    user.save()
+    messages.success(request, 'Usuario ativado com sucesso!')
+    return redirect('users')
