@@ -1,0 +1,32 @@
+[
+    {
+      "model": "catalogo.Photography",
+      "pk": 27,
+      "fields": {
+        "name": "John",
+        "subtitle": "John",
+        "description": "John",
+        "path": "John",
+        "published": true,
+        "date_photography": "2023-10-19 18:03:54.445780",
+        "like": 10,
+        "category": "COMUNIDADE",
+        "user": 3
+      }
+    },
+    {
+        "model": "catalogo.Photography",
+        "pk": 28,
+        "fields": {
+          "name": "oi",
+          "subtitle": "oi",
+          "description": "oi",
+          "path": "oi",
+          "published": true,
+          "date_photography": "2023-10-19 18:03:54.445780",
+          "like": 10,
+          "category": "CLT",
+          "user": 4
+        }
+      }
+  ]
