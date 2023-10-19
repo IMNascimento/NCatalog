@@ -24,10 +24,15 @@ python3 manage.py runserver
 ```
 <h4>Semeando:</h4>
 <p>Para semearmos dados já pre definidos vamos usar o seed:
+Primeiro vamos fazer a execução da nossa fixture
 </p>
+<ul>
+    <li>Vamos na pasta do nosso projeto para executarmos o manage.py</li>
+    <li>Depois passe o caminho completo do fixture igual iremos mostrar a seguir.</li>
+</ul>
 
-```python
-python3 manage.py seed
+```bash
+python3 .\manage.py loaddata .\catalogo\fixtures\catalogo.json
 ```
 <p>Depois dessa execução ele vai gerar os dados no banco de dados ai basta iniciar o servidor novamente como o "runserver"</p>
 
