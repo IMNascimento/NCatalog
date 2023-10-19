@@ -18,6 +18,7 @@ class Photography(models.Model):
     description = models.TextField(null=False, blank=False)
     path = models.ImageField(upload_to="fotos/%Y/%m/%d/", blank=True)
     published = models.BooleanField(default=False)
+    like = models.IntegerField(default=0)
     date_photography = models.DateTimeField(default=datetime.now, blank=False)
     user = models.ForeignKey(
         to=User,

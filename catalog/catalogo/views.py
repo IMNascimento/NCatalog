@@ -16,9 +16,26 @@ def sobre(request):
 def jobs(request):
     return render(request,"catalogo/services.html")
 
-def buscar(reuqest):
-    pass
+def details(request,id):
+    photo = Photography.objects.get(pk=id)
+    return render(request,"catalogo/gallery-single.html",{"foto":photo})
 
+def like(request, id):
+    photo = Photography.objects.get(pk=id)
+    photo.like += 1
+    photo.save()
+    return render(request,"catalogo/gallery-single.html",{"foto":photo, "status":"like"})
+ 
+def deslike(request, id):
+    photo = Photography.objects.get(pk=id)
+    photo.like -= 1
+    photo.save()
+    return render(request,"catalogo/gallery-single.html",{"foto":photo, "status":"deslike"})   
+
+def filter_category(request,category):
+    photo = Photography.objects.filter(category=category)
+    return render(request, 'catalogo/index.html',{"fotos":photo})
+    
 @login_required
 def register_photography(request):
     forms = PhotographyForm
@@ -76,3 +93,5 @@ def update_photography(request, id):
 def all_photography(request):
     photos = Photography.objects.all()
     return render(request, 'dashboard/photo.html', {'photos': photos})
+
+
