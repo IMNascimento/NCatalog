@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import Photography
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from .forms import PhotographyForm, PhotographyDisplayForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -91,7 +92,18 @@ def update_photography(request, id):
 
 @login_required
 def all_photography(request):
-    photos = Photography.objects.all()
+    photo = Photography.objects.all()
+    paginator = Paginator(photo, 5) 
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    try:
+        photos = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        photos = paginator.page(paginator.num_pages)
+
     return render(request, 'dashboard/photo.html', {'photos': photos})
 
 
