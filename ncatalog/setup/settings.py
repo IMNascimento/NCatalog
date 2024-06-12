@@ -83,9 +83,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'catalog',
-        'USER': 'root',
+        'USER': 'igor',
         'PASSWORD': '12345678',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
@@ -151,4 +151,4 @@ MESSAGE_TAGS = {
 
 
 #login url
-LOGIN_URL = "login"
+LOGIN_URL = "index"

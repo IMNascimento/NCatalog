@@ -1,0 +1,14 @@
+{% load static %}
+{% for clothing in clothes %}
+<a href="{% url 'detail_clothing' clothing.id %}">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <img class="card-img-top" src="{{ clothing.path.url }}" alt="{{ clothing.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ clothing.title }}</h5>
+                <p class="card-text">{{ clothing.description }}</p>
+            </div>
+        </div>
+    </div>
+</a>
+{% endfor %}

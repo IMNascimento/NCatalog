@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
+@login_required
 def home(request):
     clothes = Clothing.objects.all()
     return render(request, 'catalog/home.html', {'clothes': clothes})
@@ -37,6 +39,7 @@ def comment_clothing(request, clothing_id):
         Comment.objects.create(user=request.user, clothing=clothing, content=content)
     return redirect('detail_clothing', clothing_id=clothing_id)
 
+@login_required
 def detail_clothing(request, clothing_id):
     clothing = get_object_or_404(Clothing, id=clothing_id)
     comments = Comment.objects.filter(clothing=clothing)
@@ -51,6 +54,7 @@ def add_clothing(request):
         form = ClothingForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Roupa cadastrada com sucesso!')
             return redirect('home')
     else:
         form = ClothingForm()
@@ -63,6 +67,7 @@ def edit_clothing(request, clothing_id):
         form = ClothingForm(request.POST, request.FILES, instance=clothing)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Roupa editada com sucesso!')
             return redirect('home')
     else:
         form = ClothingForm(instance=clothing)
@@ -73,5 +78,6 @@ def delete_clothing(request, clothing_id):
     clothing = get_object_or_404(Clothing, id=clothing_id)
     if request.method == 'POST':
         clothing.delete()
+        messages.success(request, 'Roupa deletada com sucesso!')
         return redirect('home')
     return render(request, 'catalog/delete_clothing.html', {'clothing': clothing})

@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .forms import LoginForm, UserRegistrationForm
+from django.contrib import messages
 
 def login_view(request):
     if request.method == 'POST':
@@ -19,6 +20,7 @@ def register_view(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Cadastrado com sucesso!')
             return redirect('login')
     return redirect('home')
 
