@@ -6,6 +6,9 @@ class Clothing(models.Model):
     path = models.ImageField(upload_to="img/%Y/%m/%d/", blank=True)
     description = models.TextField()
 
+    def total_likes(self):
+        return Like.objects.filter(clothing=self).count()
+    
     def __str__(self):
         return self.title
 

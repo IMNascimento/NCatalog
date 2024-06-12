@@ -22,7 +22,10 @@ def register_view(request):
             form.save()
             messages.success(request, 'Cadastrado com sucesso!')
             return redirect('login')
-    return redirect('home')
+        else:
+            messages.error(request, 'Erro ao cadastrar!')
+            
+    return redirect('index')
 
 def logout_view(request):
     logout(request)

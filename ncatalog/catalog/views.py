@@ -13,16 +13,6 @@ def index(request):
     clothes = Clothing.objects.all()
     return render(request, 'catalog/index.html', {'clothes': clothes})
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Clothing, Like, Comment
-from .forms import ClothingForm, CommentForm
-from django.contrib.auth.decorators import login_required
-
-@login_required
-def home(request):
-    clothes = Clothing.objects.all()
-    return render(request, 'catalog/home.html', {'clothes': clothes})
-
 @login_required
 def like_clothing(request, clothing_id):
     clothing = get_object_or_404(Clothing, id=clothing_id)

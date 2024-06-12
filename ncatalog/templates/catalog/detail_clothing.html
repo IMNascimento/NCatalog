@@ -58,12 +58,12 @@
             <i class="fa {% if liked %}fa-thumbs-down{% else %}fa-thumbs-up{% endif %}"></i>
             {% if user.is_authenticated %}
                 {% if liked %}
-                    Descurtir
+                    {{ clothing.total_likes }}
                 {% else %}
-                    Curtir
+                    {{ clothing.total_likes }}
                 {% endif %}
             {% else %}
-                Curtir
+                {{ clothing.total_likes }}
             {% endif %}
         </a>
         <form method="post" action="{% url 'comment_clothing' clothing.id %}">
